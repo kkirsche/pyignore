@@ -1,0 +1,99 @@
+[tool.poetry]
+name = "gitignore"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{ include = "gitignore", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+httpx = { extras = ["http2"], version = "^0.24.1" }
+pydantic = "^2.2.1"
+typer = "^0.9.0"
+tomli-w = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+example-isort-formatting-plugin = "^0.1.1"
+example-isort-sorting-plugin = "^0.1.0"
+mypy = "^1.5.1"
+ruff = "^0.0.285"
+
+[tool.poetry.scripts]
+gitignore = "gitignore.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+formatter = "example"
+profile = "black"
+remove_redundant_aliases = true
+sort_order = "natural_plus"
+
+[tool.black]
+include = '\.pyi?$'
+line-length = 88
+target-version = ['py311']
+
+[tool.mypy]
+exclude = ['^compat\.py$']
+follow_imports = "normal"
+plugins = ["pydantic.mypy"]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+ignore_missing_imports = true
+module = []
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --strict-config -p no:pastebin -p no:nose"
+minversion = "7.2"
+empty_parameter_set_mark = "fail_at_collect"
+testpaths = ["tests"]
+
+[tool.pyright]
+exclude = ["**/__pycache__", "**/.git", "**/.mypy_cache", "**/.ruff_cache"]
+include = ["**/*.py"]
+pythonPlatform = "All"
+pythonVersion = "3.11"
+typeCheckingMode = "strict"
+
+[tool.ruff]
+# https://beta.ruff.rs/docs/settings/#select
+# https://beta.ruff.rs/docs/rules/ defines what the select codes mean
+select = [
+    "ARG",   # flake8-unused-arguments
+    "ASYNC", # flake8-async
+    "B",     # flake8-bugbear
+    "C4",    # flake8-comprehensions
+    "C90",   # mccabe
+    "DTZ",   # flake8-datetimez
+    "E",     # pycodestyle (errors)
+    "F",     # Pyflakes
+    "PIE",   # flake8-pie
+    "PTH",   # flake8-use-pathlibdd
+    "PYI",   # flake8-pyi
+    "Q",     # flake8-quotes
+    "S",     # flake8-bandit
+    "UP",    # pyupgrade
+    "W",     # pycodestyle (warnings)
+    "YTT",   #  flake8-2020
+]
+target-version = "py311"
+line-length = 88
+extend-exclude = []
+
+[tool.ruff.mccabe]
+max-complexity = 15
